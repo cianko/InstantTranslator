@@ -1,0 +1,135 @@
+========================================================
+   INSTANT TRANSLATOR - ANLIK CEVIRI ARACI
+   Kullanim Kilavuzu
+========================================================
+
+Bu program, bilgisayarinizda herhangi bir yerde sectiginiz metni bir
+kisayol tusuyla aninda cevirir. Tarayici acmaniza, kopyala-yapistir
+yapmaniza gerek kalmaz.
+
+Bilgisayariniza Python veya baska bir sey kurmaniza GEREK YOKTUR.
+
+
+--------------------------------------------------------
+1) NASIL BASLATILIR?
+--------------------------------------------------------
+
+- "InstantTranslator.exe" dosyasina cift tiklayin.
+- Ilk acilis birkac saniye surebilir; sabirla bekleyin.
+- Acildiginda ekranin sag alt kosesindeki saatin yanindaki
+  (sistem tepsisi / system tray) alanda mavi bir simge belirir.
+  * Simgeyi goremezseniz oradaki yukari ok ( ^ ) isaretine tiklayin;
+    gizli simgeler arasinda olabilir.
+- "Calisiyor. Kisayol: ctrl+shift+t" seklinde kisa bir bildirim
+  gorursunuz. Artik hazir!
+
+Not: Program acildiginda arayuz dilini Windows'un diline gore otomatik
+secer (Turkce veya Ingilizce). Bunu Ayarlar'dan degistirebilirsiniz.
+
+
+--------------------------------------------------------
+2) NASIL KULLANILIR?
+--------------------------------------------------------
+
+  1. Herhangi bir programda (Word, tarayici, PDF, vb.) cevirmek
+     istediginiz metni fareyle SECIN.
+
+  2. Klavyeden kisayola basin (varsayilan):   Ctrl + Shift + T
+
+  3. Ceviri, ekranin SAG ORTA kisminda beliren kucuk bir pencerede
+     aninda gorunur.
+
+  4. Kapatmak icin su uc yoldan biri:
+       - Pencerenin DISINA (baska bir yere) tiklayin, veya
+       - Klavyeden  Esc  tusuna basin, veya
+       - Pencerenin sag ustundeki  X  butonuna tiklayin.
+
+Ekstra ozellikler:
+  - SURUKLEME: Pencereyi bos bir yerinden fareyle tutup basili tutarak
+    ekranda istediginiz yere tasiyabilirsiniz.
+  - KOPYALA: Penceredeki "Kopyala" dugmesi cevrilen metni panoya alir.
+
+
+--------------------------------------------------------
+3) AYARLAR (kisayol, diller, tema, arayuz dili)
+--------------------------------------------------------
+
+Ayarlari uc yoldan acabilirsiniz:
+
+  A) Ceviri penceresinin sag ustundeki CARK (Ayarlar) ikonuna tiklayin.
+  B) Sistem tepsisindeki mavi simgeye SAG tiklayip "Ayarlar"i secin
+     (veya simgeye cift tiklayin).
+  C) Tepsi menusunden "Ayar dosyasini ac (Notepad)" ile dosyadan.
+
+Ayarlar penceresinde sunlari degistirebilirsiniz:
+  - Kisayol      : Kutuya bir kez TIKLAYIN, sonra istediginiz tus
+                   kombinasyonuna basin (orn. once Ctrl+Shift'i basili
+                   tutup sonra T'ye basin). Kombinasyon otomatik yazilir.
+                   NOT: Kutuya tiklamadan basilan tuslar kisayoli
+                   DEGISTIRMEZ; once kutuya tiklamalisiniz.
+  - Kaynak dil   : Cevrilecek metnin dili (varsayilan: Otomatik Algila).
+  - Hedef dil    : Cevirinin yapilacagi dil (varsayilan: Turkce).
+  - Tema         : Ayarlar penceresi icin Koyu veya Acik gorunum.
+  - Arayuz dili  : Menu ve mesajlarin dili (Sistem / Ingilizce / Turkce).
+
+"Kaydet" dediginizde ayarlar aninda uygulanir ve hatirlanir.
+
+
+--------------------------------------------------------
+4) PROGRAMI KAPATMA
+--------------------------------------------------------
+
+- Tepsideki simgeye sag tiklayin -> "Cikis".
+- Program ayni anda yalnizca tek kez calisir; ikinci kez acmaya
+  calisirsaniz "zaten calisiyor" uyarisi verir.
+
+
+--------------------------------------------------------
+5) SIK KARSILASILAN DURUMLAR
+--------------------------------------------------------
+
+* "Windows bu bilgisayari korudu" / SmartScreen uyarisi:
+  Program guvenlidir ancak dijital imzasi olmadigi icin Windows
+  tanimadigini soyleyebilir. "Ek bilgi" -> "Yine de calistir".
+
+* Antivirus uyari verirse:
+  Program, kisayol tusunu dinleyebilmek icin klavyeyi izler; bazi
+  antivirusler bunu yanlislikla supheli gorur. Guveniyorsaniz
+  istisnalar listesine ekleyin.
+
+* Kisayola basinca hicbir sey olmuyorsa:
+  - Once mutlaka bir metin SECMIS oldugunuzdan emin olun.
+  - Internet baglantiniz olmali (ceviri internet gerektirir).
+  - Bazi "yonetici olarak calisan" programlarda kisayolun calismasi
+    icin InstantTranslator.exe'ye sag tiklayip "Yonetici olarak
+    calistir" secmeniz gerekebilir.
+
+* "Ceviri motoruna ulasilamadi" (kirmizi yazi):
+  Internet baglantinizi kontrol edip tekrar deneyin. Program en fazla
+  5 saniye bekler ve asla donup kalmaz.
+
+
+--------------------------------------------------------
+6) BILGISAYAR ACILINCA OTOMATIK BASLASIN (istege bagli)
+--------------------------------------------------------
+
+  1. Klavyeden  Windows tusu + R  basin.
+  2. Acilan kutuya  shell:startup  yazip Enter'a basin.
+  3. Acilan klasorun icine InstantTranslator.exe'nin bir KISAYOLUNU
+     koyun (dosyaya sag tik -> Kisayol olustur; olusan kisayoli bu
+     klasore tasiyin).
+
+  Artik bilgisayar her acildiginda program kendiliginden arka planda
+  calisir.
+
+========================================================
+Iyi kullanimlar!
+========================================================
+
+
+--------------------------------------------------------
+GELISTIRICI / DEVELOPER
+--------------------------------------------------------
+Bu program Ahmet Zan tarafindan gelistirilmistir.
+LinkedIn: https://www.linkedin.com/in/ahmet-zan-a746a929a
+========================================================

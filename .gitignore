@@ -1,0 +1,33 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# --- PyInstaller derleme çıktıları ---
+build/
+*.spec.bak
+
+# --- Inno Setup kurulum çıktısı ---
+installer/
+
+# --- Dağıtım klasörü: büyük ikili dosyalar hariç, kılavuzlar dahil ---
+dist/*
+!dist/README.txt
+!dist/KULLANIM.txt
+
+# --- Üretilen uygulama simgesi (make_icon.py derleme sırasında yeniden üretir) ---
+assets/icon.ico
+
+# --- Kod imzalama sertifikaları (ASLA depoya girmesin!) ---
+*.pfx
+*.p12
+*.key
+
+# --- İşletim sistemi / editör ---
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/
