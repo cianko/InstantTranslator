@@ -20,6 +20,7 @@ Select text anywhere in Windows, press your shortcut (default `Ctrl+Shift+T`), a
 - 🌍 **Bilingual UI** — English & Turkish, auto-detected from your Windows language.
 - 🎨 **Modern design** — clean white popup, light/dark settings themes.
 - 🔁 **Reliable** — 3-engine fallback, 5 s timeout, never freezes.
+- 🖼️ **OCR fallback** — when copying is blocked (e.g. protected PDFs), draw a box over the text and it's read via built-in Windows OCR — no Tesseract needed.
 - 🚫 **No Python required** for end users — ships as a single `.exe` / installer.
 
 ### 📥 Download & Install (for users)
@@ -82,6 +83,7 @@ Windows'ta herhangi bir yerde metin seçin, kısayola basın (varsayılan `Ctrl+
 - 🌍 **İki dilli arayüz** — Türkçe ve İngilizce, Windows dilinize göre otomatik.
 - 🎨 **Modern tasarım** — sade beyaz pencere, açık/koyu ayar temaları.
 - 🔁 **Kararlı** — 3 kademeli motor yedeği, 5 sn zaman aşımı, asla donmaz.
+- 🖼️ **OCR yedeği** — kopyalama engelliyse (ör. korumalı PDF'ler), metnin üzerine bir kutu çizin; Windows'un yerleşik OCR'ı ile okunur — Tesseract gerekmez.
 - 🚫 Son kullanıcı için **Python gerektirmez** — tek `.exe` / kurulum olarak gelir.
 
 ### 📥 İndirme & Kurulum (kullanıcılar için)

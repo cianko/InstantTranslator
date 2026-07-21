@@ -51,6 +51,13 @@ Extra features:
   - COPY: The "Copy" button in the window puts the translation on your
     clipboard.
 
+  - COPY-PROTECTED CONTENT (OCR): Some PDFs or programs do not allow
+    copying text. In such a case, when you press the shortcut the screen
+    dims slightly; draw a rectangle with your mouse over the text you want
+    to translate. The program READS that area from a screenshot (OCR) and
+    translates it. Press Esc to cancel. (This uses the built-in Windows
+    OCR; no extra installation is required.)
+
 
 --------------------------------------------------------
 3) SETTINGS (shortcut, languages, theme, interface language)

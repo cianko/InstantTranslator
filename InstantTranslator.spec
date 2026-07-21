@@ -5,11 +5,15 @@ Tek dosya (onefile), konsolsuz (windowed) bir exe üretir.
 Derlemek için: build.bat  ya da  pyinstaller --clean InstantTranslator.spec
 """
 import os
-from PyInstaller.utils.hooks import collect_submodules
+from PyInstaller.utils.hooks import collect_submodules, collect_all
 
 # deep-translator, bs4 ve requests'i dinamik kullandığından tüm alt modüllerini topla
 hiddenimports = collect_submodules('deep_translator')
 hiddenimports += ['bs4', 'requests', 'keyboard', 'pyperclip']
+
+# winsdk (Windows OCR): derlenmiş namespace uzantıları + alt modülleri topla
+winsdk_datas, winsdk_binaries, winsdk_hidden = collect_all('winsdk')
+hiddenimports += winsdk_hidden
 
 # Kullanılmayan ağır Qt modüllerini hariç tut (exe boyutunu küçültür)
 excludes = [
@@ -29,8 +33,8 @@ icon_path = 'assets/icon.ico' if os.path.exists('assets/icon.ico') else None
 a = Analysis(
     ['main.py'],
     pathex=[],
-    binaries=[],
-    datas=[],
+    binaries=winsdk_binaries,
+    datas=winsdk_datas,
     hiddenimports=hiddenimports,
     hookspath=[],
     hooksconfig={},

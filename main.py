@@ -21,8 +21,10 @@ import keyboard
 from src.capture import get_selected_text
 from src.config_manager import CONFIG_PATH, ConfigManager
 from src.i18n import set_language, t
+from src.ocr import ocr_png
 from src.overlay import TranslationOverlay
 from src.settings_dialog import SettingsDialog
+from src.snip import SnipOverlay
 from src.translator import TranslationError, translate_text, warmup
 
 APP_NAME = "Instant Translator"  # marka adı — çevrilmez
@@ -34,6 +36,7 @@ class Bridge(QObject):
     loading = Signal(str, str)            # source, target
     result = Signal(str, str, str, str)   # original, translated, source, target
     error = Signal(str)
+    request_snip = Signal(str, str)       # kopyalama başarısız -> OCR snip modu (source, target)
 
 
 def make_icon() -> QIcon:
@@ -71,6 +74,8 @@ class TranslatorApp:
         self.bridge.loading.connect(self.overlay.show_loading)
         self.bridge.result.connect(self.overlay.show_result)
         self.bridge.error.connect(self.overlay.show_error)
+        self.bridge.request_snip.connect(self.start_snip)
+        self._snip = None
 
         self._icon = make_icon()
         self._build_tray()
@@ -155,15 +160,51 @@ class TranslatorApp:
         threading.Thread(target=self._worker, args=(source, target), daemon=True).start()
 
     def _worker(self, source, target):
+        handoff = False
         try:
             # 1) Kaynak program hâlâ odaktayken seçili metni panoya al
             text = get_selected_text()
             if not text:
-                self.bridge.error.emit(t("err_no_text"))
+                # Kopyalama engelli olabilir (ör. izinleri kısıtlı PDF) ->
+                # OCR ile ekran bölgesinden okuma moduna geç.
+                handoff = True
+                self.bridge.request_snip.emit(source, target)
                 return
             # 2) Metin alındı; artık pencereyi açıp "Çevriliyor…" gösterebiliriz
             self.bridge.loading.emit(source, target)
             # 3) Çeviriyi yap ve sonucu göster (maks. 5 sn timeout, asılı kalmaz)
+            translated = translate_text(text, source, target, timeout=5.0)
+            self.bridge.result.emit(text, translated, source, target)
+        except TranslationError:
+            self.bridge.error.emit(t("err_engine"))
+        except Exception:
+            self.bridge.error.emit(t("err_engine"))
+        finally:
+            if not handoff:
+                self._busy = False
+
+    # --- OCR yedek yakalama (kopyalama engelliyse) ---
+    def start_snip(self, source, target):
+        """Tam ekran bölge seçici açar (ana thread)."""
+        self.overlay.force_close()
+        self._snip = SnipOverlay()
+        self._snip.captured.connect(lambda png: self._on_snip(png, source, target))
+        self._snip.cancelled.connect(self._on_snip_cancel)
+        self._snip.start()
+
+    def _on_snip_cancel(self):
+        self._busy = False
+
+    def _on_snip(self, png, source, target):
+        self.bridge.loading.emit(source, target)
+        threading.Thread(target=self._ocr_worker, args=(png, source, target), daemon=True).start()
+
+    def _ocr_worker(self, png, source, target):
+        try:
+            text = ocr_png(png, source)
+            if not text.strip():
+                self.bridge.error.emit(t("err_ocr"))
+                return
             translated = translate_text(text, source, target, timeout=5.0)
             self.bridge.result.emit(text, translated, source, target)
         except TranslationError:
@@ -216,9 +257,42 @@ class TranslatorApp:
         self.app.quit()
 
 
+def _run_ocr_selftest():
+    """Donmuş exe'de Windows OCR'ın çalışıp çalışmadığını dosyaya yazar.
+    Kullanım: InstantTranslator.exe --selftest-ocr  ->  %TEMP%\\it_ocr_selftest.txt
+    """
+    import os
+    import tempfile
+    from PySide6.QtCore import Qt, QBuffer, QByteArray
+    from PySide6.QtGui import QImage, QPainter, QFont
+    from src.ocr import ocr_png, is_available
+
+    img = QImage(720, 120, QImage.Format_RGB32)
+    img.fill(Qt.white)
+    p = QPainter(img)
+    p.setPen(Qt.black)
+    p.setFont(QFont("Arial", 24))
+    p.drawText(img.rect(), Qt.AlignCenter, "Instant Translator OCR self test")
+    p.end()
+    ba = QByteArray()
+    buf = QBuffer(ba)
+    buf.open(QBuffer.WriteOnly)
+    img.save(buf, "PNG")
+
+    out = "available={} result={!r}".format(is_available(), ocr_png(bytes(ba), "en"))
+    path = os.path.join(tempfile.gettempdir(), "it_ocr_selftest.txt")
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(out)
+
+
 def main():
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)  # pencere kapansa da tepside kal
+
+    # Gizli tanılama: OCR öz-testi (donmuş exe'yi doğrulamak için)
+    if "--selftest-ocr" in sys.argv:
+        _run_ocr_selftest()
+        sys.exit(0)
 
     # Arayüz dilini erkenden ayarla (aşağıdaki mesaj kutuları için)
     config = ConfigManager()

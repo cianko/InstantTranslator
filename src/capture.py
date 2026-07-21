@@ -11,7 +11,23 @@ import pyperclip
 _SENTINEL = "\x00__IT_SENTINEL__\x00"
 
 
-def get_selected_text(wait_ms: int = 250, attempts: int = 2) -> str:
+def _wait_modifiers_released(timeout: float = 0.4):
+    """Kısayolun değiştirici tuşları (Ctrl/Shift/Alt) fiziksel olarak bırakılana
+    kadar bekler. Böylece gönderilen Ctrl+C, hâlâ basılı Shift yüzünden
+    Ctrl+Shift+C'ye dönüşüp kopyalamayı düşürmez (yanlış-pozitif snip önlenir)."""
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        try:
+            still = (keyboard.is_pressed("ctrl") or keyboard.is_pressed("shift")
+                     or keyboard.is_pressed("alt") or keyboard.is_pressed("windows"))
+        except Exception:
+            still = False
+        if not still:
+            return
+        time.sleep(0.02)
+
+
+def get_selected_text(wait_ms: int = 300, attempts: int = 3) -> str:
     """Seçili metni panoya alıp döndürür (pano doğrulaması + tekrar deneme).
 
     Panoya önce bir 'sentinel' yazılır, sonra Ctrl+C gönderilir ve pano
@@ -19,15 +35,18 @@ def get_selected_text(wait_ms: int = 250, attempts: int = 2) -> str:
     Böylece yalnızca TAZE kopyalanan metin yakalanır; eski pano içeriği asla
     çeviriye gönderilmez.
 
-    Eğer metin alınamazsa (kopyalama düşerse), 0.1 sn gecikmeyle Ctrl+C tekrar
-    tetiklenir (toplam 'attempts' deneme). Bu, ara sıra kopyalamanın kaçırılıp
-    çevirinin hiç gelmemesi sorununu giderir.
+    Metin alınamazsa Ctrl+C tekrar tetiklenir (toplam 'attempts' deneme).
+    Bu sabır sayesinde NORMAL kopyalanabilir metin snip'e düşmez; snip yalnızca
+    içerik GERÇEKTEN kopyalamaya izin vermediğinde (izinli olmayan PDF) devreye girer.
     """
     # Kullanıcının panosunu yedekle
     try:
         original = pyperclip.paste()
     except Exception:
         original = ""
+
+    # Önce kısayol tuşlarının bırakılmasını bekle (Ctrl+C temiz gitsin)
+    _wait_modifiers_released(0.4)
 
     captured = ""
     for attempt in range(attempts):
@@ -37,14 +56,13 @@ def get_selected_text(wait_ms: int = 250, attempts: int = 2) -> str:
         except Exception:
             pass
 
-        # Basılı olabilecek değiştirici tuşları bırak, sonra kopyala.
+        # Kalan değiştiricileri de programatik olarak bırak, sonra kopyala.
         for mod in ("ctrl", "shift", "alt", "windows"):
             try:
                 keyboard.release(mod)
             except Exception:
                 pass
-        # İlk denemede minik, sonraki denemelerde 0.1 sn gecikme
-        time.sleep(0.1 if attempt > 0 else 0.05)
+        time.sleep(0.05 if attempt == 0 else 0.10)
         keyboard.send("ctrl+c")
 
         # Pano SENTINEL'den farklı bir değere dönene kadar bekle (maks. wait_ms)

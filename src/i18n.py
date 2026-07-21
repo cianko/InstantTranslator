@@ -38,6 +38,8 @@ TRANSLATIONS = {
         "tip_close": "Close (Esc)",
         "err_no_text": "No text selected.\nSelect some text and try again.",
         "err_engine": "Error: Cannot reach the translation engine.\nPlease try again.",
+        "err_ocr": "Could not read text from the selection.\nTry selecting a clearer area.",
+        "snip_hint": "Copy is blocked — draw a box over the text to translate (OCR)   •   Esc to cancel",
         # --- Ayarlar penceresi ---
         "lbl_shortcut": "Shortcut:",
         "lbl_source": "Source language:",
@@ -84,6 +86,8 @@ TRANSLATIONS = {
         "tip_close": "Kapat (Esc)",
         "err_no_text": "Seçili metin bulunamadı.\nÖnce bir metin seçip tekrar deneyin.",
         "err_engine": "Hata: Çeviri motoruna ulaşılamadı.\nLütfen tekrar deneyin.",
+        "err_ocr": "Seçimden metin okunamadı.\nDaha net bir alan seçmeyi deneyin.",
+        "snip_hint": "Kopyalama engelli — çevirmek için metnin üzerine bir kutu çizin (OCR)   •   İptal: Esc",
         "lbl_shortcut": "Kısayol:",
         "lbl_source": "Kaynak dil:",
         "lbl_target": "Hedef dil:",

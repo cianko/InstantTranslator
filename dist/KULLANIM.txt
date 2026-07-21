@@ -49,6 +49,13 @@ Ekstra ozellikler:
     ekranda istediginiz yere tasiyabilirsiniz.
   - KOPYALA: Penceredeki "Kopyala" dugmesi cevrilen metni panoya alir.
 
+  - KOPYALAMASI ENGELLI ICERIK (OCR): Bazi PDF'ler veya programlar metin
+    kopyalamaya izin vermez. Boyle bir yerde kisayola bastiginizda ekran
+    hafifce kararir; cevirmek istediginiz yazinin uzerine fareyle bir
+    dikdortgen cizin. Program o bolgeyi ekran goruntusunden OKUR (OCR) ve
+    cevirir. Vazgecmek icin Esc'e basin. (Bu ozellik Windows'un yerlesik
+    OCR'ini kullanir; ek kurulum gerektirmez.)
+
 
 --------------------------------------------------------
 3) AYARLAR (kisayol, diller, tema, arayuz dili)
